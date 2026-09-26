@@ -1,3 +1,7 @@
+"""
+Flask server for emotion detection application.
+"""
+
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -5,25 +9,32 @@ app = Flask("Emotion Detector")
 
 @app.route("/")
 def render_index_page():
+    """
+    Render the main index HTML page.
+    """
     return render_template('index.html')
 
 @app.route("/emotionDetector")
 def sent_analyzer():
+    """
+    Analyze the text provided by the user and return emotional scores.
+    """
     text_to_analyze = request.args.get('textToAnalyze')
-    
+
     response = emotion_detector(text_to_analyze)
-    
+
     if response['dominant_emotion'] is None:
         return "Недійсний текст! Спробуйте ще раз!"
-    
+
     formatted_response = (
         f"Для даного висловлення відповідь системи: 'anger': {response['anger']}, "
         f"'disgust': {response['disgust']}, 'fear': {response['fear']}, "
         f"'joy': {response['joy']} та 'sadness': {response['sadness']}. "
         f"Домінуюча емоція - {response['dominant_emotion']}."
     )
-    
+
     return formatted_response
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+    

@@ -13,6 +13,9 @@ def sent_analyzer():
     
     response = emotion_detector(text_to_analyze)
     
+    if response['dominant_emotion'] is None:
+        return "Недійсний текст! Спробуйте ще раз!"
+    
     formatted_response = (
         f"Для даного висловлення відповідь системи: 'anger': {response['anger']}, "
         f"'disgust': {response['disgust']}, 'fear': {response['fear']}, "
@@ -24,4 +27,3 @@ def sent_analyzer():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-    
